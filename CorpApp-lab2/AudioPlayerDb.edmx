@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Task2AudioPlayer_KiselevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MusicTracks">
+          <Key>
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="TrackId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TrackAuthor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GenreId" Type="int" Nullable="false" />
+          <Property Name="UploadUserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Playlists">
+          <Key>
+            <PropertyRef Name="PlaylistId" />
+          </Key>
+          <Property Name="PlaylistId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlaylistName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PlaylistOwnerId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Task2AudioPlayer_Kiselev.dbo.TracksAndPlaylists' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TracksAndPlaylists">
+          <Key>
+            <PropertyRef Name="PlaylistId" />
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="PlaylistId" Type="int" Nullable="false" />
+          <Property Name="TrackId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserLogin" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserFullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_to__Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Playlists" Type="Self.Playlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Playlists">
+              <PropertyRef Name="PlaylistOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to_Genres_GenreId">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+          <End Role="MusicTracks" Type="Self.MusicTracks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="MusicTracks">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to_MusicTracks_TrackId">
+          <End Role="MusicTracks" Type="Self.MusicTracks" Multiplicity="1" />
+          <End Role="TracksAndPlaylists" Type="Self.TracksAndPlaylists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MusicTracks">
+              <PropertyRef Name="TrackId" />
+            </Principal>
+            <Dependent Role="TracksAndPlaylists">
+              <PropertyRef Name="TrackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to_Playlists_PlaylistId">
+          <End Role="Playlists" Type="Self.Playlists" Multiplicity="1" />
+          <End Role="TracksAndPlaylists" Type="Self.TracksAndPlaylists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Playlists">
+              <PropertyRef Name="PlaylistId" />
+            </Principal>
+            <Dependent Role="TracksAndPlaylists">
+              <PropertyRef Name="PlaylistId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to_Users_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="MusicTracks" Type="Self.MusicTracks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MusicTracks">
+              <PropertyRef Name="UploadUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Task2AudioPlayer_KiselevModelStoreContainer">
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MusicTracks" EntityType="Self.MusicTracks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Playlists" EntityType="Self.Playlists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TracksAndPlaylists" EntityType="Self.TracksAndPlaylists" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TracksAndPlaylists].[PlaylistId] AS [PlaylistId], 
+    [TracksAndPlaylists].[TrackId] AS [TrackId]
+    FROM [dbo].[TracksAndPlaylists] AS [TracksAndPlaylists]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_to__Users_UserId" Association="Self.FK_to__Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Playlists" EntitySet="Playlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to_Genres_GenreId" Association="Self.FK_to_Genres_GenreId">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to_MusicTracks_TrackId" Association="Self.FK_to_MusicTracks_TrackId">
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+            <End Role="TracksAndPlaylists" EntitySet="TracksAndPlaylists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to_Playlists_PlaylistId" Association="Self.FK_to_Playlists_PlaylistId">
+            <End Role="Playlists" EntitySet="Playlists" />
+            <End Role="TracksAndPlaylists" EntitySet="TracksAndPlaylists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to_Users_UserId" Association="Self.FK_to_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Task2AudioPlayer_KiselevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MusicTrack">
+          <Key>
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="TrackId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrackName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TrackAuthor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GenreId" Type="Int32" Nullable="false" />
+          <Property Name="UploadUserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Genres" Relationship="Self.FK_to_Genres_GenreId" FromRole="MusicTracks" ToRole="Genres" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_to_Users_UserId" FromRole="MusicTracks" ToRole="Users" />
+          <NavigationProperty Name="Playlists" Relationship="Self.TracksAndPlaylists" FromRole="MusicTracks" ToRole="Playlists" />
+        </EntityType>
+        <EntityType Name="Playlist">
+          <Key>
+            <PropertyRef Name="PlaylistId" />
+          </Key>
+          <Property Name="PlaylistId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlaylistName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PlaylistOwnerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_to__Users_UserId" FromRole="Playlists" ToRole="Users" />
+          <NavigationProperty Name="MusicTracks" Relationship="Self.TracksAndPlaylists" FromRole="Playlists" ToRole="MusicTracks" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserLogin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserFullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MusicTracks" Relationship="Self.FK_to_Users_UserId" FromRole="Users" ToRole="MusicTracks" />
+          <NavigationProperty Name="Playlists" Relationship="Self.FK_to__Users_UserId" FromRole="Users" ToRole="Playlists" />
+        </EntityType>
+        <Association Name="FK_to_Genres_GenreId">
+          <End Role="Genres" Type="Task2AudioPlayer_KiselevModel.Genre" Multiplicity="1" />
+          <End Role="MusicTracks" Type="Task2AudioPlayer_KiselevModel.MusicTrack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="MusicTracks">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to_Users_UserId">
+          <End Role="Users" Type="Task2AudioPlayer_KiselevModel.User" Multiplicity="1" />
+          <End Role="MusicTracks" Type="Task2AudioPlayer_KiselevModel.MusicTrack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="MusicTracks">
+              <PropertyRef Name="UploadUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_to__Users_UserId">
+          <End Role="Users" Type="Task2AudioPlayer_KiselevModel.User" Multiplicity="1" />
+          <End Role="Playlists" Type="Task2AudioPlayer_KiselevModel.Playlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Playlists">
+              <PropertyRef Name="PlaylistOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TracksAndPlaylists">
+          <End Role="MusicTracks" Type="Task2AudioPlayer_KiselevModel.MusicTrack" Multiplicity="*" />
+          <End Role="Playlists" Type="Task2AudioPlayer_KiselevModel.Playlist" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AudioPlayerDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Genres" EntityType="Task2AudioPlayer_KiselevModel.Genre" />
+          <EntitySet Name="MusicTracks" EntityType="Task2AudioPlayer_KiselevModel.MusicTrack" />
+          <EntitySet Name="Playlists" EntityType="Task2AudioPlayer_KiselevModel.Playlist" />
+          <EntitySet Name="Users" EntityType="Task2AudioPlayer_KiselevModel.User" />
+          <AssociationSet Name="FK_to_Genres_GenreId" Association="Self.FK_to_Genres_GenreId">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to_Users_UserId" Association="Self.FK_to_Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_to__Users_UserId" Association="Self.FK_to__Users_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Playlists" EntitySet="Playlists" />
+          </AssociationSet>
+          <AssociationSet Name="TracksAndPlaylists" Association="Self.TracksAndPlaylists">
+            <End Role="MusicTracks" EntitySet="MusicTracks" />
+            <End Role="Playlists" EntitySet="Playlists" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Task2AudioPlayer_KiselevModelStoreContainer" CdmEntityContainer="AudioPlayerDbContext">
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="Task2AudioPlayer_KiselevModel.Genre">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MusicTracks">
+            <EntityTypeMapping TypeName="Task2AudioPlayer_KiselevModel.MusicTrack">
+              <MappingFragment StoreEntitySet="MusicTracks">
+                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+                <ScalarProperty Name="TrackName" ColumnName="TrackName" />
+                <ScalarProperty Name="TrackAuthor" ColumnName="TrackAuthor" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="UploadUserId" ColumnName="UploadUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Playlists">
+            <EntityTypeMapping TypeName="Task2AudioPlayer_KiselevModel.Playlist">
+              <MappingFragment StoreEntitySet="Playlists">
+                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
+                <ScalarProperty Name="PlaylistName" ColumnName="PlaylistName" />
+                <ScalarProperty Name="PlaylistOwnerId" ColumnName="PlaylistOwnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Task2AudioPlayer_KiselevModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserLogin" ColumnName="UserLogin" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="UserFullName" ColumnName="UserFullName" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TracksAndPlaylists" TypeName="Task2AudioPlayer_KiselevModel.TracksAndPlaylists" StoreEntitySet="TracksAndPlaylists">
+            <EndProperty Name="MusicTracks">
+              <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+            </EndProperty>
+            <EndProperty Name="Playlists">
+              <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
