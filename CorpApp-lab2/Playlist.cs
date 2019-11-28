@@ -25,7 +25,6 @@ namespace CorpApp_lab2
         public int PlaylistOwnerId { get; set; }
     
         public virtual User Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MusicTrack> MusicTracks { get; set; }
     }
 }
