@@ -34,7 +34,7 @@
             this.searchTypeCmbBox = new System.Windows.Forms.ComboBox();
             this.searchBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.resetSearchBtn = new System.Windows.Forms.Button();
             this.PlaylistContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.EditPlaylist = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,15 +99,14 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Поиск музыкальных композиций";
             // 
-            // button1
+            // resetSearchBtn
             // 
-            this.button1.Location = new System.Drawing.Point(823, 59);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Сбросить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.resetSearchBtn.Location = new System.Drawing.Point(823, 59);
+            this.resetSearchBtn.Name = "resetSearchBtn";
+            this.resetSearchBtn.Size = new System.Drawing.Size(75, 23);
+            this.resetSearchBtn.TabIndex = 6;
+            this.resetSearchBtn.Text = "Сбросить";
+            this.resetSearchBtn.UseVisualStyleBackColor = true;
             // 
             // PlaylistContextMenuStrip
             // 
@@ -174,7 +173,7 @@
             this.ClientSize = new System.Drawing.Size(921, 599);
             this.Controls.Add(this.CurrentUserLabel);
             this.Controls.Add(this.PlaylistsDataGridView);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.resetSearchBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.searchBtn);
             this.Controls.Add(this.searchTypeCmbBox);
@@ -197,7 +196,7 @@
         private System.Windows.Forms.ComboBox searchTypeCmbBox;
         private System.Windows.Forms.Button searchBtn;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button resetSearchBtn;
         private System.Windows.Forms.ContextMenuStrip PlaylistContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem AddPlaylist;
         private System.Windows.Forms.ToolStripMenuItem EditPlaylist;

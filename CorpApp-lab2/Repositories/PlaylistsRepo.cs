@@ -10,7 +10,7 @@ namespace CorpApp_lab2.Repositories
         {
             using (var dbContext = new AudioPlayerDbContext())
             {
-                return dbContext.Playlists.Where(x => x.PlaylistOwnerId == userId).ToList();
+                return dbContext.Playlists.Include("MusicTracks").Include("Users").Where(x => x.PlaylistOwnerId == userId).ToList();
             }
         }
         

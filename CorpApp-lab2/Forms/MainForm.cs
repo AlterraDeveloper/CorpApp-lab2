@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using CorpApp_lab2.Repositories;
 using System.Windows.Forms;
@@ -27,7 +28,13 @@ namespace CorpApp_lab2.Forms
 
         private void FillOrRefreshPlaylistsGridView()
         {
-            PlaylistsDataGridView.DataSource = PlaylistsRepo.GetAll(_currentUser.UserId);
+            var playlists = PlaylistsRepo.GetAll(_currentUser.UserId).ToList();
+            playlists.Add(new Playlist
+            {
+                PlaylistName = "Загруженные мною"
+            });
+            playlists = playlists.OrderBy(x => x.PlaylistId).ToList();
+            PlaylistsDataGridView.DataSource = playlists;
             PlaylistsDataGridView.Columns[0].Visible = false;
             PlaylistsDataGridView.Columns[1].HeaderText = "Плейлисты";
             PlaylistsDataGridView.Columns[2].Visible = false;
@@ -102,13 +109,14 @@ namespace CorpApp_lab2.Forms
 
             var playlist = (Playlist)selectedRow.DataBoundItem;
 
-            FillOrRefreshTracksGridView(playlist);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SoundPlayer player = new SoundPlayer(@"C:\Users\Eugene\Downloads\ellie-goulding-juice-wrld-hate-me(mp3-top.info).wav");
-            player.Play();
+            if (playlist.PlaylistId == 0)
+            {
+                FillOrRefreshTracksGridView();
+            }
+            else
+            {
+                FillOrRefreshTracksGridView(playlist);
+            }
         }
     }
 }
