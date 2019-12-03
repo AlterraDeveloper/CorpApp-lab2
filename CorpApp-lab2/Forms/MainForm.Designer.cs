@@ -41,9 +41,17 @@
             this.DeletePlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.PlaylistsDataGridView = new System.Windows.Forms.DataGridView();
             this.CurrentUserLabel = new System.Windows.Forms.Label();
+            this.UserContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.войтиСДругогоАккаунтаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редактироватьДанныеПрофиляToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TracksContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.добавитьТрекToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редактироватьТрекToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TracksGridView)).BeginInit();
             this.PlaylistContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PlaylistsDataGridView)).BeginInit();
+            this.UserContextMenuStrip.SuspendLayout();
+            this.TracksContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TracksGridView
@@ -61,6 +69,7 @@
             this.TracksGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.TracksGridView.Size = new System.Drawing.Size(572, 484);
             this.TracksGridView.TabIndex = 0;
+            this.TracksGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TracksGridView_MouseClick);
             // 
             // searchQueryTxtBox
             // 
@@ -89,6 +98,7 @@
             this.searchBtn.TabIndex = 4;
             this.searchBtn.Text = "Поиск";
             this.searchBtn.UseVisualStyleBackColor = true;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // label1
             // 
@@ -107,6 +117,7 @@
             this.resetSearchBtn.TabIndex = 6;
             this.resetSearchBtn.Text = "Сбросить";
             this.resetSearchBtn.UseVisualStyleBackColor = true;
+            this.resetSearchBtn.Click += new System.EventHandler(this.resetSearchBtn_Click);
             // 
             // PlaylistContextMenuStrip
             // 
@@ -165,6 +176,51 @@
             this.CurrentUserLabel.Name = "CurrentUserLabel";
             this.CurrentUserLabel.Size = new System.Drawing.Size(0, 20);
             this.CurrentUserLabel.TabIndex = 8;
+            this.CurrentUserLabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CurrentUserLabel_MouseClick);
+            // 
+            // UserContextMenuStrip
+            // 
+            this.UserContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.войтиСДругогоАккаунтаToolStripMenuItem,
+            this.редактироватьДанныеПрофиляToolStripMenuItem});
+            this.UserContextMenuStrip.Name = "UserContextMenuStrip";
+            this.UserContextMenuStrip.Size = new System.Drawing.Size(252, 48);
+            // 
+            // войтиСДругогоАккаунтаToolStripMenuItem
+            // 
+            this.войтиСДругогоАккаунтаToolStripMenuItem.Name = "войтиСДругогоАккаунтаToolStripMenuItem";
+            this.войтиСДругогоАккаунтаToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.войтиСДругогоАккаунтаToolStripMenuItem.Text = "Войти с другого аккаунта";
+            this.войтиСДругогоАккаунтаToolStripMenuItem.Click += new System.EventHandler(this.войтиСДругогоАккаунтаToolStripMenuItem_Click);
+            // 
+            // редактироватьДанныеПрофиляToolStripMenuItem
+            // 
+            this.редактироватьДанныеПрофиляToolStripMenuItem.Name = "редактироватьДанныеПрофиляToolStripMenuItem";
+            this.редактироватьДанныеПрофиляToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.редактироватьДанныеПрофиляToolStripMenuItem.Text = "Редактировать данные профиля";
+            this.редактироватьДанныеПрофиляToolStripMenuItem.Click += new System.EventHandler(this.редактироватьДанныеПрофиляToolStripMenuItem_Click);
+            // 
+            // TracksContextMenuStrip
+            // 
+            this.TracksContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.добавитьТрекToolStripMenuItem,
+            this.редактироватьТрекToolStripMenuItem});
+            this.TracksContextMenuStrip.Name = "TracksContextMenuStrip";
+            this.TracksContextMenuStrip.Size = new System.Drawing.Size(182, 48);
+            // 
+            // добавитьТрекToolStripMenuItem
+            // 
+            this.добавитьТрекToolStripMenuItem.Name = "добавитьТрекToolStripMenuItem";
+            this.добавитьТрекToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.добавитьТрекToolStripMenuItem.Text = "Добавить трек";
+            this.добавитьТрекToolStripMenuItem.Click += new System.EventHandler(this.добавитьТрекToolStripMenuItem_Click);
+            // 
+            // редактироватьТрекToolStripMenuItem
+            // 
+            this.редактироватьТрекToolStripMenuItem.Name = "редактироватьТрекToolStripMenuItem";
+            this.редактироватьТрекToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.редактироватьТрекToolStripMenuItem.Text = "Редактировать трек";
+            this.редактироватьТрекToolStripMenuItem.Click += new System.EventHandler(this.редактироватьТрекToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -184,6 +240,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.TracksGridView)).EndInit();
             this.PlaylistContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PlaylistsDataGridView)).EndInit();
+            this.UserContextMenuStrip.ResumeLayout(false);
+            this.TracksContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,6 +261,12 @@
         private System.Windows.Forms.ToolStripMenuItem DeletePlaylist;
         private System.Windows.Forms.DataGridView PlaylistsDataGridView;
         private System.Windows.Forms.Label CurrentUserLabel;
+        private System.Windows.Forms.ContextMenuStrip UserContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem войтиСДругогоАккаунтаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem редактироватьДанныеПрофиляToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip TracksContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem добавитьТрекToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem редактироватьТрекToolStripMenuItem;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 
@@ -27,9 +28,18 @@ namespace CorpApp_lab2.Repositories
         {
             using (var dbContext = new AudioPlayerDbContext())
             {
+                //dbContext.Entry(playlist).State = EntityState.Deleted;
                 dbContext.Playlists.Remove(playlist);
                 dbContext.SaveChanges();
 
+            }
+        }
+
+        public static Playlist GetById(int id)
+        {
+            using (var dbContext = new AudioPlayerDbContext())
+            {
+                return dbContext.Playlists.Include("MusicTracks").FirstOrDefault(x => x.PlaylistId == id);
             }
         }
     }

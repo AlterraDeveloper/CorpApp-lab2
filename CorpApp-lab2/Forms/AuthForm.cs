@@ -9,6 +9,12 @@ namespace CorpApp_lab2.Forms
         public AuthForm()
         {
             InitializeComponent();
+
+            if (Owner is MainForm owner)
+            {
+                owner.Close();
+            }
+
         }
 
         private void loginBtn_Click(object sender, EventArgs e)
